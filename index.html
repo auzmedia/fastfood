@@ -1,92 +1,44 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoElite | Премиальный сервис вашего автомобиля</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --bg: #0a0a0a;
-            --surface: rgba(255, 255, 255, 0.05);
-            --accent: #e11d48;
-            --text: #ffffff;
-            --text-muted: #a3a3a3;
-            --transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
+Ты Senior Frontend Developer и UI/UX Designer.
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+Создай современный премиальный лендинг для [НИША].
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        section { padding: 100px 0; }
+Требования:
 
-        /* Hero */
-        .hero { height: 100vh; display: flex; align-items: center; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1486006920555-c77dcf18193b?auto=format&fit=crop&q=80&w=2000') center/cover; }
-        .hero-content h1 { font-size: 5rem; line-height: 1; margin-bottom: 20px; }
-        .btn { padding: 18px 35px; background: var(--accent); color: white; text-decoration: none; border-radius: 4px; display: inline-block; transition: var(--transition); font-weight: 600; text-transform: uppercase; border: none; cursor: pointer; }
-        .btn:hover { background: #be123c; transform: translateY(-5px); }
+Чистый HTML5, CSS3 и JavaScript.
+Один файл index.html.
+Адаптивность для мобильных устройств.
+Семантическая верстка.
+Современный дизайн уровня Webflow.
+Плавные анимации появления блоков.
+Плавный скролл.
+Glassmorphism и современные тени.
+Красивые hover-эффекты.
+Высокая конверсия.
 
-        /* Grid */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .card { background: var(--surface); backdrop-filter: blur(10px); padding: 40px; border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; transition: var(--transition); }
-        .card:hover { transform: translateY(-10px); border-color: var(--accent); }
-        .card i { font-size: 2.5rem; color: var(--accent); margin-bottom: 20px; }
+Структура:
 
-        /* Forms */
-        input, textarea { width: 100%; padding: 15px; margin: 10px 0; background: var(--surface); border: 1px solid #333; color: white; border-radius: 8px; }
-        
-        @media (max-width: 768px) { .hero-content h1 { font-size: 3rem; } }
-    </style>
-</head>
-<body>
+Hero section
+Большой заголовок
+Подзаголовок
+CTA-кнопка
+Фоновое изображение
+Преимущества (6 карточек)
+Услуги
+Галерея работ
+О компании
+Команда специалистов
+Отзывы клиентов
+FAQ
+Форма заявки
+Контакты
 
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Ваш авто — <br><span style="color:var(--accent)">в надежных руках</span></h1>
-                <p>Профессиональный детейлинг и техническое обслуживание премиум-класса.</p><br>
-                <a href="#contact" class="btn">Записаться на сервис</a>
-            </div>
-        </div>
-    </section>
+Дополнительно:
 
-    <section id="features">
-        <div class="container">
-            <h2 style="text-align:center; margin-bottom: 50px; font-size: 3rem;">Почему мы</h2>
-            <div class="grid">
-                <div class="card"><i class="fa fa-wrench"></i><h3>Диагностика</h3><p>Точное выявление неисправностей.</p></div>
-                <div class="card"><i class="fa fa-oil-can"></i><h3>ТО и Масла</h3><p>Только сертифицированные расходники.</p></div>
-                <div class="card"><i class="fa fa-car-side"></i><h3>Детейлинг</h3><p>Возвращаем блеск вашему авто.</p></div>
-                <div class="card"><i class="fa fa-microchip"></i><h3>Чип-тюнинг</h3><p>Раскрываем потенциал двигателя.</p></div>
-                <div class="card"><i class="fa fa-shield-halved"></i><h3>Гарантия</h3><p>Честная гарантия на все работы.</p></div>
-                <div class="card"><i class="fa fa-clock"></i><h3>Скорость</h3><p>Ценим ваше время и соблюдаем сроки.</p></div>
-            </div>
-        </div>
-    </section>
+Используй Font Awesome.
+Используй Google Fonts.
+Используй CSS Variables.
+Используй Flexbox и Grid.
+Не используй Bootstrap.
+Код должен выглядеть как коммерческий проект.
 
-    <section id="contact" style="background: #111;">
-        <div class="container">
-            <h2 style="text-align:center; margin-bottom: 50px;">Запись на сервис</h2>
-            <form style="max-width: 600px; margin: 0 auto;">
-                <input type="text" placeholder="Ваше имя" required>
-                <input type="tel" placeholder="Телефон" required>
-                <textarea rows="5" placeholder="Описание проблемы"></textarea>
-                <button type="submit" class="btn" style="width: 100%;">Отправить запрос</button>
-            </form>
-        </div>
-    </section>
-
-    <script>
-        // Smooth scroll implementation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
-            });
-        });
-    </script>
-</body>
-</html>
+Сгенерируй полный готовый index.html без сокращений и без пропуска кода.
