@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Меню | Durger Bot</title>
+    
+    <!-- Главный скрипт! Он связывает эту страницу с Telegram -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
+    <style>
+        /* Базовые стили. Цвета берутся из темы Telegram пользователя */
+        body {
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+            font-family: sans-serif;
+            margin: 0;
+            padding: 15px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        /* Сетка для товаров (многосекционная структура) */
+        .catalog {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .product-card {
+            background-color: var(--tg-theme-secondary-bg-color, #f1f1f1);
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .product-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .product-price {
+            color: var(--tg-theme-hint-color, #999999);
+            margin-bottom: 10px;
+        }
+
+        button.add-btn {
+            background-color: var(--tg-theme-button-color, #3390ec);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border: none;
+            padding: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Наше Меню</h1>
+
+    <!-- Каталог товаров -->
+    <div class="catalog" id="catalog">
+        <!-- Первый товар -->
+        <div class="product-card">
+            <!-- Заглушка вместо картинки -->
+            <img src="https://via.placeholder.com/150x150?text=Burger" alt="Бургер">
+            <div class="product-title">Классический Бургер</div>
+            <div class="product-price">350 сом</div>
+            <button class="add-btn" onclick="addToCart('Классический Бургер', 350)">Добавить</button>
+        </div>
+
+        <!-- Второй товар -->
+        <div class="product-card">
+            <img src="https://via.placeholder.com/150x150?text=Fries" alt="Фри">
+            <div class="product-title">Картофель Фри</div>
+            <div class="product-price">120 сом</div>
+            <button class="add-btn" onclick="addToCart('Картофель Фри', 120)">Добавить</button>
+        </div>
+    </div>
+
+    <script>
+        // Инициализируем Telegram Web App
+        const tg = window.Telegram.WebApp;
+        
+        // Разворачиваем приложение на весь экран телефона
+        tg.expand();
+        
+        // Сообщаем Telegram, что приложение готово
+        tg.ready();
+
+        let cart = [];
+        let totalSum = 0;
+
+        // Логика добавления в корзину
+        function addToCart(itemName, itemPrice) {
+            cart.push({name: itemName, price: itemPrice});
+            totalSum += itemPrice;
+            
+            // Настраиваем нативную кнопку Telegram внизу экрана
+            tg.MainButton.setText(`Оформить заказ на ${totalSum} сом`);
+            tg.MainButton.show();
+        }
+
+        // Действие при нажатии на главную кнопку
+        tg.MainButton.onClick(() => {
+            // Отправляем данные корзины обратно в бота в виде строки JSON
+            tg.sendData(JSON.stringify(cart)); 
+        });
+    </script>
+</body>
+</html>
