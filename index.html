@@ -2,210 +2,90 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Durger King</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoElite | Премиальный сервис вашего автомобиля</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            background-color: var(--tg-theme-bg-color, #ffffff);
-            color: var(--tg-theme-text-color, #000000);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            padding-bottom: 80px; /* Отступ для кнопки Telegram */
+        :root {
+            --bg: #0a0a0a;
+            --surface: rgba(255, 255, 255, 0.05);
+            --accent: #e11d48;
+            --text: #ffffff;
+            --text-muted: #a3a3a3;
+            --transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        /* Навигация (Вкладки) */
-        .tabs {
-            display: flex;
-            overflow-x: auto;
-            background-color: var(--tg-theme-secondary-bg-color, #f1f1f1);
-            padding: 10px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
 
-        .tabs a {
-            text-decoration: none;
-            color: var(--tg-theme-text-color, #000000);
-            padding: 8px 16px;
-            margin-right: 10px;
-            background: var(--tg-theme-bg-color, #ffffff);
-            border-radius: 20px;
-            font-weight: 500;
-            white-space: nowrap;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        section { padding: 100px 0; }
 
-        /* Секции и товары */
-        .section-title {
-            padding: 20px 15px 10px;
-            margin: 0;
-            font-size: 22px;
-        }
+        /* Hero */
+        .hero { height: 100vh; display: flex; align-items: center; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1486006920555-c77dcf18193b?auto=format&fit=crop&q=80&w=2000') center/cover; }
+        .hero-content h1 { font-size: 5rem; line-height: 1; margin-bottom: 20px; }
+        .btn { padding: 18px 35px; background: var(--accent); color: white; text-decoration: none; border-radius: 4px; display: inline-block; transition: var(--transition); font-weight: 600; text-transform: uppercase; border: none; cursor: pointer; }
+        .btn:hover { background: #be123c; transform: translateY(-5px); }
 
-        .catalog {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            padding: 0 15px;
-        }
+        /* Grid */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .card { background: var(--surface); backdrop-filter: blur(10px); padding: 40px; border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; transition: var(--transition); }
+        .card:hover { transform: translateY(-10px); border-color: var(--accent); }
+        .card i { font-size: 2.5rem; color: var(--accent); margin-bottom: 20px; }
 
-        .product-card {
-            background-color: var(--tg-theme-secondary-bg-color, #f1f1f1);
-            border-radius: 12px;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-
-        .product-card img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-
-        .product-title { font-weight: 600; margin-bottom: 4px; font-size: 15px; }
-        .product-price { color: #e6a715; font-weight: bold; margin-bottom: 10px; }
-
-        /* Кнопки +/- */
-        .controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: auto;
-            background: var(--tg-theme-button-color, #3390ec);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .btn {
-            background: none;
-            border: none;
-            color: var(--tg-theme-button-text-color, #ffffff);
-            font-size: 18px;
-            width: 35px;
-            height: 35px;
-            cursor: pointer;
-            font-weight: bold;
-        }
+        /* Forms */
+        input, textarea { width: 100%; padding: 15px; margin: 10px 0; background: var(--surface); border: 1px solid #333; color: white; border-radius: 8px; }
         
-        .btn:active { background: rgba(0,0,0,0.1); }
-        .qty { color: var(--tg-theme-button-text-color, #ffffff); font-weight: bold; }
+        @media (max-width: 768px) { .hero-content h1 { font-size: 3rem; } }
     </style>
 </head>
 <body>
 
-    <div class="tabs">
-        <a href="#burgers">🍔 Бургеры</a>
-        <a href="#snacks">🍟 Снеки</a>
-        <a href="#drinks">🥤 Напитки</a>
-    </div>
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Ваш авто — <br><span style="color:var(--accent)">в надежных руках</span></h1>
+                <p>Профессиональный детейлинг и техническое обслуживание премиум-класса.</p><br>
+                <a href="#contact" class="btn">Записаться на сервис</a>
+            </div>
+        </div>
+    </section>
 
-    <h2 class="section-title" id="burgers">Бургеры</h2>
-    <div class="catalog">
-        <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=300&q=80" alt="Бургер">
-            <div class="product-title">Классический</div>
-            <div class="product-price">350 сом</div>
-            <div class="controls">
-                <button class="btn" onclick="updateCart('Классический', -1, 350)">-</button>
-                <span class="qty" id="qty-Классический">0</span>
-                <button class="btn" onclick="updateCart('Классический', 1, 350)">+</button>
+    <section id="features">
+        <div class="container">
+            <h2 style="text-align:center; margin-bottom: 50px; font-size: 3rem;">Почему мы</h2>
+            <div class="grid">
+                <div class="card"><i class="fa fa-wrench"></i><h3>Диагностика</h3><p>Точное выявление неисправностей.</p></div>
+                <div class="card"><i class="fa fa-oil-can"></i><h3>ТО и Масла</h3><p>Только сертифицированные расходники.</p></div>
+                <div class="card"><i class="fa fa-car-side"></i><h3>Детейлинг</h3><p>Возвращаем блеск вашему авто.</p></div>
+                <div class="card"><i class="fa fa-microchip"></i><h3>Чип-тюнинг</h3><p>Раскрываем потенциал двигателя.</p></div>
+                <div class="card"><i class="fa fa-shield-halved"></i><h3>Гарантия</h3><p>Честная гарантия на все работы.</p></div>
+                <div class="card"><i class="fa fa-clock"></i><h3>Скорость</h3><p>Ценим ваше время и соблюдаем сроки.</p></div>
             </div>
         </div>
-        <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1586816001966-79b736744398?auto=format&fit=crop&w=300&q=80" alt="Чизбургер">
-            <div class="product-title">Чизбургер</div>
-            <div class="product-price">390 сом</div>
-            <div class="controls">
-                <button class="btn" onclick="updateCart('Чизбургер', -1, 390)">-</button>
-                <span class="qty" id="qty-Чизбургер">0</span>
-                <button class="btn" onclick="updateCart('Чизбургер', 1, 390)">+</button>
-            </div>
-        </div>
-    </div>
+    </section>
 
-    <h2 class="section-title" id="snacks">Снеки</h2>
-    <div class="catalog">
-        <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1576107232684-1279f390859f?auto=format&fit=crop&w=300&q=80" alt="Фри">
-            <div class="product-title">Картофель Фри</div>
-            <div class="product-price">120 сом</div>
-            <div class="controls">
-                <button class="btn" onclick="updateCart('Картофель Фри', -1, 120)">-</button>
-                <span class="qty" id="qty-Картофель_Фри">0</span>
-                <button class="btn" onclick="updateCart('Картофель Фри', 1, 120)">+</button>
-            </div>
+    <section id="contact" style="background: #111;">
+        <div class="container">
+            <h2 style="text-align:center; margin-bottom: 50px;">Запись на сервис</h2>
+            <form style="max-width: 600px; margin: 0 auto;">
+                <input type="text" placeholder="Ваше имя" required>
+                <input type="tel" placeholder="Телефон" required>
+                <textarea rows="5" placeholder="Описание проблемы"></textarea>
+                <button type="submit" class="btn" style="width: 100%;">Отправить запрос</button>
+            </form>
         </div>
-    </div>
+    </section>
 
     <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
-        tg.ready();
-
-        // Объект для хранения товаров в корзине: { 'Название': { price: 100, count: 2 } }
-        let cart = {}; 
-
-        function updateCart(name, change, price) {
-            // Форматируем id для поиска элемента (заменяем пробелы, чтобы не ломался HTML)
-            let idName = name.replace(/ /g, '_');
-            
-            if (!cart[name]) {
-                cart[name] = { price: price, count: 0 };
-            }
-            
-            cart[name].count += change;
-            
-            // Защита от отрицательного количества
-            if (cart[name].count < 0) {
-                cart[name].count = 0;
-            }
-
-            // Обновляем цифру на экране
-            document.getElementById(`qty-${idName}`).innerText = cart[name].count;
-
-            if (cart[name].count === 0) {
-                delete cart[name]; // Удаляем из корзины, если счетчик равен 0
-            }
-
-            updateMainButton();
-        }
-
-        function updateMainButton() {
-            let totalSum = 0;
-            let totalItems = 0;
-            
-            // Считаем общую сумму и количество
-            for (let item in cart) {
-                totalSum += cart[item].price * cart[item].count;
-                totalItems += cart[item].count;
-            }
-
-            if (totalItems > 0) {
-                tg.MainButton.setText(`ОФОРМИТЬ ЗАКАЗ (${totalSum} сом)`);
-                tg.MainButton.show();
-            } else {
-                tg.MainButton.hide();
-            }
-        }
-
-        tg.MainButton.onClick(() => {
-            // Формируем красивый массив для отправки в бота
-            let finalOrder = [];
-            for (let item in cart) {
-                // Разворачиваем товары: если заказали 3 фри, отправляем 3 раза "Картофель Фри" (или можно переписать бота под количества)
-                for (let i = 0; i < cart[item].count; i++) {
-                    finalOrder.push({ name: item, price: cart[item].price });
-                }
-            }
-            tg.sendData(JSON.stringify(finalOrder));
+        // Smooth scroll implementation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
         });
     </script>
 </body>
