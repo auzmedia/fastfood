@@ -3,123 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Меню | Durger Bot</title>
-    
-    <!-- Главный скрипт! Он связывает эту страницу с Telegram -->
+    <title>Durger King</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
-        /* Базовые стили. Цвета берутся из темы Telegram пользователя */
         body {
             background-color: var(--tg-theme-bg-color, #ffffff);
             color: var(--tg-theme-text-color, #000000);
-            font-family: sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
-            padding: 15px;
+            padding: 0;
+            padding-bottom: 80px; /* Отступ для кнопки Telegram */
         }
 
-        h1 {
-            text-align: center;
-            font-size: 24px;
-            margin-bottom: 20px;
+        /* Навигация (Вкладки) */
+        .tabs {
+            display: flex;
+            overflow-x: auto;
+            background-color: var(--tg-theme-secondary-bg-color, #f1f1f1);
+            padding: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        /* Сетка для товаров (многосекционная структура) */
+        .tabs a {
+            text-decoration: none;
+            color: var(--tg-theme-text-color, #000000);
+            padding: 8px 16px;
+            margin-right: 10px;
+            background: var(--tg-theme-bg-color, #ffffff);
+            border-radius: 20px;
+            font-weight: 500;
+            white-space: nowrap;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* Секции и товары */
+        .section-title {
+            padding: 20px 15px 10px;
+            margin: 0;
+            font-size: 22px;
+        }
+
         .catalog {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
+            padding: 0 15px;
         }
 
         .product-card {
             background-color: var(--tg-theme-secondary-bg-color, #f1f1f1);
             border-radius: 12px;
             padding: 10px;
-            text-align: center;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
         .product-card img {
             width: 100%;
-            height: auto;
+            height: 120px;
+            object-fit: cover;
             border-radius: 8px;
             margin-bottom: 10px;
         }
 
-        .product-title {
-            font-weight: bold;
-            margin-bottom: 5px;
+        .product-title { font-weight: 600; margin-bottom: 4px; font-size: 15px; }
+        .product-price { color: #e6a715; font-weight: bold; margin-bottom: 10px; }
+
+        /* Кнопки +/- */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            background: var(--tg-theme-button-color, #3390ec);
+            border-radius: 8px;
+            overflow: hidden;
         }
 
-        .product-price {
-            color: var(--tg-theme-hint-color, #999999);
-            margin-bottom: 10px;
-        }
-
-        button.add-btn {
-            background-color: var(--tg-theme-button-color, #3390ec);
-            color: var(--tg-theme-button-text-color, #ffffff);
+        .btn {
+            background: none;
             border: none;
-            padding: 8px;
-            border-radius: 8px;
+            color: var(--tg-theme-button-text-color, #ffffff);
+            font-size: 18px;
+            width: 35px;
+            height: 35px;
             cursor: pointer;
             font-weight: bold;
         }
+        
+        .btn:active { background: rgba(0,0,0,0.1); }
+        .qty { color: var(--tg-theme-button-text-color, #ffffff); font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <h1>Наше Меню</h1>
+    <div class="tabs">
+        <a href="#burgers">🍔 Бургеры</a>
+        <a href="#snacks">🍟 Снеки</a>
+        <a href="#drinks">🥤 Напитки</a>
+    </div>
 
-    <!-- Каталог товаров -->
-    <div class="catalog" id="catalog">
-        <!-- Первый товар -->
+    <h2 class="section-title" id="burgers">Бургеры</h2>
+    <div class="catalog">
         <div class="product-card">
-            <!-- Заглушка вместо картинки -->
-            <img src="https://via.placeholder.com/150x150?text=Burger" alt="Бургер">
-            <div class="product-title">Классический Бургер</div>
+            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=300&q=80" alt="Бургер">
+            <div class="product-title">Классический</div>
             <div class="product-price">350 сом</div>
-            <button class="add-btn" onclick="addToCart('Классический Бургер', 350)">Добавить</button>
+            <div class="controls">
+                <button class="btn" onclick="updateCart('Классический', -1, 350)">-</button>
+                <span class="qty" id="qty-Классический">0</span>
+                <button class="btn" onclick="updateCart('Классический', 1, 350)">+</button>
+            </div>
         </div>
-
-        <!-- Второй товар -->
         <div class="product-card">
-            <img src="https://via.placeholder.com/150x150?text=Fries" alt="Фри">
+            <img src="https://images.unsplash.com/photo-1586816001966-79b736744398?auto=format&fit=crop&w=300&q=80" alt="Чизбургер">
+            <div class="product-title">Чизбургер</div>
+            <div class="product-price">390 сом</div>
+            <div class="controls">
+                <button class="btn" onclick="updateCart('Чизбургер', -1, 390)">-</button>
+                <span class="qty" id="qty-Чизбургер">0</span>
+                <button class="btn" onclick="updateCart('Чизбургер', 1, 390)">+</button>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="section-title" id="snacks">Снеки</h2>
+    <div class="catalog">
+        <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1576107232684-1279f390859f?auto=format&fit=crop&w=300&q=80" alt="Фри">
             <div class="product-title">Картофель Фри</div>
             <div class="product-price">120 сом</div>
-            <button class="add-btn" onclick="addToCart('Картофель Фри', 120)">Добавить</button>
+            <div class="controls">
+                <button class="btn" onclick="updateCart('Картофель Фри', -1, 120)">-</button>
+                <span class="qty" id="qty-Картофель_Фри">0</span>
+                <button class="btn" onclick="updateCart('Картофель Фри', 1, 120)">+</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // Инициализируем Telegram Web App
         const tg = window.Telegram.WebApp;
-        
-        // Разворачиваем приложение на весь экран телефона
         tg.expand();
-        
-        // Сообщаем Telegram, что приложение готово
         tg.ready();
 
-        let cart = [];
-        let totalSum = 0;
+        // Объект для хранения товаров в корзине: { 'Название': { price: 100, count: 2 } }
+        let cart = {}; 
 
-        // Логика добавления в корзину
-        function addToCart(itemName, itemPrice) {
-            cart.push({name: itemName, price: itemPrice});
-            totalSum += itemPrice;
+        function updateCart(name, change, price) {
+            // Форматируем id для поиска элемента (заменяем пробелы, чтобы не ломался HTML)
+            let idName = name.replace(/ /g, '_');
             
-            // Настраиваем нативную кнопку Telegram внизу экрана
-            tg.MainButton.setText(`Оформить заказ на ${totalSum} сом`);
-            tg.MainButton.show();
+            if (!cart[name]) {
+                cart[name] = { price: price, count: 0 };
+            }
+            
+            cart[name].count += change;
+            
+            // Защита от отрицательного количества
+            if (cart[name].count < 0) {
+                cart[name].count = 0;
+            }
+
+            // Обновляем цифру на экране
+            document.getElementById(`qty-${idName}`).innerText = cart[name].count;
+
+            if (cart[name].count === 0) {
+                delete cart[name]; // Удаляем из корзины, если счетчик равен 0
+            }
+
+            updateMainButton();
         }
 
-        // Действие при нажатии на главную кнопку
+        function updateMainButton() {
+            let totalSum = 0;
+            let totalItems = 0;
+            
+            // Считаем общую сумму и количество
+            for (let item in cart) {
+                totalSum += cart[item].price * cart[item].count;
+                totalItems += cart[item].count;
+            }
+
+            if (totalItems > 0) {
+                tg.MainButton.setText(`ОФОРМИТЬ ЗАКАЗ (${totalSum} сом)`);
+                tg.MainButton.show();
+            } else {
+                tg.MainButton.hide();
+            }
+        }
+
         tg.MainButton.onClick(() => {
-            // Отправляем данные корзины обратно в бота в виде строки JSON
-            tg.sendData(JSON.stringify(cart)); 
+            // Формируем красивый массив для отправки в бота
+            let finalOrder = [];
+            for (let item in cart) {
+                // Разворачиваем товары: если заказали 3 фри, отправляем 3 раза "Картофель Фри" (или можно переписать бота под количества)
+                for (let i = 0; i < cart[item].count; i++) {
+                    finalOrder.push({ name: item, price: cart[item].price });
+                }
+            }
+            tg.sendData(JSON.stringify(finalOrder));
         });
     </script>
 </body>
